@@ -1,0 +1,48 @@
+trigger:
+  branches:
+    include:
+      - master
+      - feature/*
+
+jobs:
+  - job: RunBuild
+    pool:
+      vmImage: "ubuntu-latest"
+
+    variables:
+      buildConfiguration: "Release"
+      disable.coverage.autogenerate: "true"
+
+    steps:
+      - task: UseDotNet@2
+        displayName: "Use .NET Core SDK from global.json"
+        inputs:
+          packageType: "sdk"
+          useGlobalJson: true
+
+      - task: Bash@3
+        displayName: "Launch Cake build"
+        inputs:
+          filePath: "./build.sh"
+          arguments: "--target Default"
+
+      - task: PublishTestResults@2
+        displayName: "Publish test results"
+        inputs:
+          testResultsFormat: "XUnit"
+          testResultsFiles:  "**/*.xunit.xml"
+          searchFolder: ".reports"
+          mergeTestResults: true
+
+      - task: PublishCodeCoverageResults@1
+        displayName: "Publish code coverage results"
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: ".reports/combined/Cobertura"
+          reportDirectory: ".reports/combined/coverage"
+
+      - task: PublishBuildArtifacts@1
+        displayName: "publish reports"
+        inputs:
+          PathtoPublish: ".reports"
+          ArtifactName: "Test evidence"
