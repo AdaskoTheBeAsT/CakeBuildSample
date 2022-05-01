@@ -18,7 +18,7 @@ public class DotNetBuildDbTask
         var structuredLoggerFilePath = StructuredLoggerLocator.GetStructuredLoggerFilePath(context);
         var msBuildBinaryLogFilePath = new DirectoryPath(Constants.ReportsPath)
             .CombineWithFilePath(Constants.MsBuildDbBinLogFileName);
-        var dbTargetsPath = new DirectoryPath("./ms-mssql.sql-database-projects-vscode-0.14.1/BuildDirectory")
+        var dbTargetsPath = new DirectoryPath("./microsoft.sql-database-projects-0.16.1/BuildDirectory")
             .MakeAbsolute(context.Environment);
 
         var dotNetCoreMsBuildSettings = new DotNetMSBuildSettings()

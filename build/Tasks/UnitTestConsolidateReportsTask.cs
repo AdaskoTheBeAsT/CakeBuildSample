@@ -18,7 +18,7 @@ public class UnitTestConsolidateReportsTask
             ReportTypes = new[] { ReportGeneratorReportType.Cobertura },
         };
 
-        context.ReportGenerator(
+        context.ReportGenerator2(
             new GlobPattern($"{unitTestReportPath.FullPath}/**/coverage.cobertura.xml"),
             unitTestReportPath,
             reportGeneratorSettings);

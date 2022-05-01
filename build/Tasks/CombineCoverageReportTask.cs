@@ -36,7 +36,7 @@ public class CombineCoverageReportTask
             ReportTypes = new[] { ReportGeneratorReportType.Cobertura },
         };
 
-        context.ReportGenerator(
+        context.ReportGenerator2(
             new[]
             {
                 backendUnitCoverageFilePath,

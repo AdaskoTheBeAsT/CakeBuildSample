@@ -49,7 +49,7 @@ public class TestCoverageReportTask
            ReportTypes = new[] { reportType },
         };
 
-        context.ReportGenerator(
+        context.ReportGenerator2(
             new GlobPattern($"{unitReportPath.FullPath}/**/{Constants.CoverageCoberturaFileName}"),
             outputPath,
             reportGeneratorSettings);

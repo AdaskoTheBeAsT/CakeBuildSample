@@ -25,7 +25,7 @@ public class CombineCoverageHtmlReportTask
             ReportTypes = new[] { ReportGeneratorReportType.HtmlInline_AzurePipelines },
         };
 
-        context.ReportGenerator(
+        context.ReportGenerator2(
             combinedReportPath,
             outputPath,
             reportGeneratorSettings);

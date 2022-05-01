@@ -2,7 +2,6 @@ using Build.Utils;
 using Cake.Common.Tools.DotNet;
 using Cake.Common.Tools.DotNet.Test;
 using Cake.Core;
-using Cake.Core.Diagnostics;
 using Cake.Core.IO;
 using Cake.Frosting;
 
@@ -17,6 +16,14 @@ public class IntegrationTestTask
         var integrationReportPath = new DirectoryPath(Constants.BackendIntegrationTestPath)
             .MakeAbsolute(context.Environment);
 
+        var coverletCollectorDirectoryPath = CoverletCollectorLocator
+            .GetCoverletCollectorDirectoryPath(context)
+            .FullPath;
+
+        var xunitXmlTestLoggerDirectoryPath = XUnitXmlTestLoggerLocator
+            .GetXUnitXmlTestLoggerDirectoryPath(context)
+            .FullPath;
+
         var dotNetCoreTestSettings = new DotNetTestSettings
         {
             Configuration = context.BuildConfiguration,
@@ -26,11 +33,13 @@ public class IntegrationTestTask
             Filter = "FullyQualifiedName~IntegrationTest",
             Collectors = new[] { "XPlat Code Coverage" },
             Loggers = new[] { $"\\\"xunit;LogFilePath={integrationReportPath.FullPath}/{{assembly}}.xunit.xml\\\"" },
-            TestAdapterPath = ".",
             ResultsDirectory = integrationReportPath.FullPath,
             ArgumentCustomization =
                 args =>
-                    args.Append("-- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura,opencover"),
+                    args
+                        .AppendSwitchQuoted("--test-adapter-path", ":", coverletCollectorDirectoryPath)
+                        .AppendSwitchQuoted("--test-adapter-path", ":", xunitXmlTestLoggerDirectoryPath)
+                        .Append("-- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura,opencover"),
         };
 
         context.DotNetTest(Constants.SolutionPath, dotNetCoreTestSettings);

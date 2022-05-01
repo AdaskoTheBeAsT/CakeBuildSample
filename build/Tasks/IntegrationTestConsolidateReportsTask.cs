@@ -18,7 +18,7 @@ public class IntegrationTestConsolidateReportsTask
             ReportTypes = new[] { ReportGeneratorReportType.Cobertura },
         };
 
-        context.ReportGenerator(
+        context.ReportGenerator2(
             new GlobPattern($"{integrationTestReportPath.FullPath}/**/coverage.cobertura.xml"),
             integrationTestReportPath,
             reportGeneratorSettings);

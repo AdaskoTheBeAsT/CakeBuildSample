@@ -1,8 +1,0 @@
-{
-	"name": "sql-database-projects-vscode",
-	"publisher": "ms-mssql",
-	"extensionDependencies": [
-		"ms-mssql.mssql",
-		"ms-mssql.data-workspace-vscode"
-	]
-}
